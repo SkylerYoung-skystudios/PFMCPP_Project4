@@ -126,7 +126,7 @@ struct Numeric
 {
     using Type = Temporary<NumericType>;
 
-    Numeric (Type val) : value (std::make_unique<Type>(val)){}
+    Numeric (NumericType val) : value (std::make_unique<Type>(val)){}
 
     ~Numeric() { value = nullptr; }
 
