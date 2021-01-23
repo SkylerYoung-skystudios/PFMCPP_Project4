@@ -12,7 +12,6 @@ Create a branch named Part9
  
  2) move these macros after the JUCE_LEAK_DETECTOR macro :
  
-
 #define JUCE_DECLARE_NON_COPYABLE(className) \
             className (const className&) = delete;\
             className& operator= (const className&) = delete;
@@ -20,7 +19,6 @@ Create a branch named Part9
 #define JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(className) \
             JUCE_DECLARE_NON_COPYABLE(className) \
             JUCE_LEAK_DETECTOR(className)
-
 
  3) add JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Temporary) to the end of the  Temporary<> struct
  
@@ -130,6 +128,8 @@ struct Numeric
 
     Numeric (Type val) : value (std::make_unique<Type>(val)){}
 
+    ~Numeric() { value = nullptr; }
+
     Numeric(Numeric&& other)
     {
         value = std::move(other.value);
@@ -141,7 +141,6 @@ struct Numeric
         return *this;       
     }
 
-    ~Numeric() { value = nullptr; }
 
     operator NumericType() const { return *value; }
     operator NumericType&() { return *value; }
